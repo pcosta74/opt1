@@ -15,17 +15,17 @@ function y = rec_fun(i, x)
     % DEBUG
     % sprintf('f%d(%d)\n',i,x)
     
-    replace = MNTC(x) + COST - SELL(x) + rec_fun(i+1, 1);
+    replace = COST - SELL(x) + rec_fun(i+1, 1);
     % DEBUG
     % sprintf('M(%d)+C-S(%d)+f%d(1)=%d+%d-%d+%d=%d\n',...
-    %         x,x,i+1,MNTC(x),COST,SELL(x),rec_fun(i+1,1),replace)
+    %         x,x,i+1,MNTC(x),COST,SELL(x),FNix(i+1,1),MNTC(x)+replace)
     if(x == HRZN)
         keep = Inf; % Must sell
     else
-        keep = MNTC(x) + rec_fun(i+1, x+1);
+        keep = rec_fun(i+1, x+1);
         % DEBUG
         % sprintf('M(%d)+f%d(%d)=%d+%d=%d\n',...
-        %         x,i+1,x+1,MNTC(x),rec_fun(i+1,x+1),keep)
+        %         x,i+1,x+1,MNTC(x),FNix(i+1,x+1),MNTC(x)+keep)
     end
     
     value = min(keep, replace);
@@ -37,9 +37,8 @@ function y = rec_fun(i, x)
         transition = 1;
     end
     
-    FNix(i,x) = value;  % store for later use
-    TRix(i,x) = transition; % store for later use
-    CHix(i,x,:) = [choice keep replace]; % store for later use
-    
-    y = value;
+    y = MNTC(x) + value;
+    FNix(i,x) = y;                          % store for later use
+    TRix(i,x) = transition;                 % store for later use
+    CHix(i,x,:) = [choice keep replace];    % store for later use
 end
