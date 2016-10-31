@@ -6,7 +6,8 @@
 % period from year i up to year 10, retaining the same motorcycle for at
 % most 7 years
 function y = rec_fun(i, x)
-    global HRZN COST DCSN MNTC SELL FNix TRix CHix;
+    % global COST SELL;
+    global LIFE DCSN MNTC RESV FNix TRix CHix;
     
     y = FNix(i, x); % retrieve previous value
     if(y ~= Inf)
@@ -15,15 +16,15 @@ function y = rec_fun(i, x)
     % DEBUG
     % sprintf('f%d(%d)\n',i,x)
     
-    replace = COST - SELL(x) + rec_fun(i+1, 1);
-    % DEBUG
+    replace = RESV(x) + rec_fun(i+1, 1);
+    % DEBUG:
     % sprintf('M(%d)+C-S(%d)+f%d(1)=%d+%d-%d+%d=%d\n',...
     %         x,x,i+1,MNTC(x),COST,SELL(x),FNix(i+1,1),MNTC(x)+replace)
-    if(x == HRZN)
+    if(x == LIFE)
         keep = Inf; % Must sell
     else
         keep = rec_fun(i+1, x+1);
-        % DEBUG
+        % DEBUG:
         % sprintf('M(%d)+f%d(%d)=%d+%d=%d\n',...
         %         x,i+1,x+1,MNTC(x),FNix(i+1,x+1),MNTC(x)+keep)
     end
@@ -38,7 +39,7 @@ function y = rec_fun(i, x)
     end
     
     y = MNTC(x) + value;
-    FNix(i,x) = y;                          % store for later use
-    TRix(i,x) = transition;                 % store for later use
-    CHix(i,x,:) = [choice keep replace];    % store for later use
+    FNix(i,x) = y;                      % store for later use
+    TRix(i,x) = transition;             % store for later use
+    CHix(i,x) = choice;                 % store for later use
 end

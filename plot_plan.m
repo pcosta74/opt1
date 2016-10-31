@@ -2,7 +2,7 @@
 % Plot the graph, highlight chosen path
 % returns: nothing
 function plot_plan()
-    global PLAN HRZN TRix;
+    global HRZN LIFE TRix;
     
     % get ordinate's matrix and transpose it
     i = 1; x = 1;
@@ -16,19 +16,18 @@ function plot_plan()
     set(gca,'color',[0.95 0.95 0.95])
     
     % plot optimal path
-    opt = ones(PLAN, 1);
-    for i=1:PLAN-1
-        newX = TRix(i,x);
-        opt(i+1) = newX;
-        x = newX;
+    optimal = ones(1,HRZN);
+    for i=1:HRZN
+        optimal(i) = x;
+        x = TRix(i,x);
     end
-    p2 = plot(opt, 'o-k', 'Color', 'r','LineWidth', 2, ...
+    p2 = plot(optimal, 'o-k', 'Color', 'r','LineWidth', 2, ...
               'MarkerSize', 10, 'MarkerFaceColor', 'r',...
               'MarkerEdgeColor', 'k');
     hold off
  
     % set axis intervals and ticks
-    axis([0,PLAN+1,0,HRZN+1])
+    axis([0,HRZN+1,0,LIFE+1])
     
     % set title and axix labels
     title('Plans', 'FontSize', 16, 'FontWeight','bold')
@@ -45,14 +44,14 @@ end
 % graph: the graph known so far (cumulative)
 % returns: a matrix with the YYs (ordinates) for the absissa (column index)
 function g = gen_graph(xx, yy, path, graph)
-    global PLAN HRZN;
+    global HRZN LIFE;
     
-    if PLAN < xx
+    if HRZN < xx
         g = [graph; path];
         return;
     end
     
-    if yy < HRZN
+    if yy < LIFE
         % DEBUG
         % g0 = gen_graph(xx+1, yy+1, [path [xx yy]], graph)
         g0 = gen_graph(xx+1, yy+1, [path yy], graph);
