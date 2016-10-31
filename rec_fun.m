@@ -1,0 +1,45 @@
+%%
+% Recursive function
+% i: integer {1,2,3,4,5,6,7,8,9,10} (stage)
+% x: integer {1,2,3,4,5,6,7} (state)
+% returns: minimum value to spend to have a motorcycle all the time, for a
+% period from year i up to year 10, retaining the same motorcycle for at
+% most 7 years
+function y = rec_fun(i, x)
+    global HRZN COST DCSN MNTC SELL FNix TRix CHix;
+    
+    y = FNix(i, x); % retrieve previous value
+    if(y ~= Inf)
+        return; % computed
+    end
+    % DEBUG
+    % sprintf('f%d(%d)\n',i,x)
+    
+    replace = MNTC(x) + COST - SELL(x) + rec_fun(i+1, 1);
+    % DEBUG
+    % sprintf('M(%d)+C-S(%d)+f%d(1)=%d+%d-%d+%d=%d\n',...
+    %         x,x,i+1,MNTC(x),COST,SELL(x),rec_fun(i+1,1),replace)
+    if(x == HRZN)
+        keep = Inf; % Must sell
+    else
+        keep = MNTC(x) + rec_fun(i+1, x+1);
+        % DEBUG
+        % sprintf('M(%d)+f%d(%d)=%d+%d=%d\n',...
+        %         x,i+1,x+1,MNTC(x),rec_fun(i+1,x+1),keep)
+    end
+    
+    value = min(keep, replace);
+    if(value == keep)
+        choice = DCSN(1);
+        transition = x+1;
+    else
+        choice = DCSN(2);
+        transition = 1;
+    end
+    
+    FNix(i,x) = value;  % store for later use
+    TRix(i,x) = transition; % store for later use
+    CHix(i,x,:) = [choice keep replace]; % store for later use
+    
+    y = value;
+end
