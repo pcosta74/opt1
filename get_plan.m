@@ -8,8 +8,8 @@ function y = get_plan()
     x = 1;
     for i=1:HRZN
         optimal(i) = CHix(i,x);     % store current optimal decision
-        n = 1 - CHix(i,x);
-        x = x^n + n;                % get next state
+        d = 1 - CHix(i,x);
+        x = x^d + d;                % get next state
     end
     y = ordinal(optimal,{'keep';'replace'});
 end
