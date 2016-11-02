@@ -7,7 +7,7 @@
 % most 7 years
 function y = rec_fun(i, x)
     % global COST SELL;
-    global LIFE DCSN MNTC RESV FNix TRix CHix;
+    global LIFE DCSN MNTC RESV FNix CHix;
     
     y = FNix(i, x); % retrieve previous value
     if(y ~= Inf)
@@ -32,14 +32,11 @@ function y = rec_fun(i, x)
     value = min(keep, replace);
     if(value == keep)
         choice = DCSN(1);
-        transition = x+1;
     else
         choice = DCSN(2);
-        transition = 1;
     end
     
     y = MNTC(x) + value;
     FNix(i,x) = y;                      % store for later use
-    TRix(i,x) = transition;             % store for later use
     CHix(i,x) = choice;                 % store for later use
 end
