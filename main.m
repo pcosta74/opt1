@@ -8,13 +8,16 @@ clear all;
 % HRZN: plan duration (stages)
 % LIFE: expected service life in year/maximum age for a motorcycle (states)
 % DCSN: decision variable: {keep = 0, replace = 1}
-% COST: price of a new motorcycle
 % MNTC: maintenance price of a motorcycle x years old
-% SELL: selling price of a motorcycle x years old
+% RESV: residual value for the motorcycle at sell = COST-SELL (optimization)
 % FNix: function value memory at stage i, state x
-% TRix: transaction memory at stage i, state x
-% CHix: decision memory at stage i, state x (cube)
-global HRZN LIFE DCSN MNTC RESV FNix TRix CHix;
+% CHix: decision memory at stage i, state x
+%
+% LOCAL VARIABLES
+% ===============
+% COST: price of a new motorcycle
+% SELL: selling price of a motorcycle x years old
+global HRZN LIFE DCSN MNTC RESV FNix CHix;
 
 HRZN = 10;
 LIFE = 7;
@@ -30,8 +33,6 @@ FNix(HRZN,:) = MNTC + COST - SELL; % Boundary condition
 
 CHix = NaN(HRZN, LIFE);
 CHix(HRZN,:) = DCSN(2); % Always "replace" at last year
-
-TRix = NaN(HRZN, LIFE);
 
 %%
 % Solve problem
