@@ -19,8 +19,8 @@ function plot_plan()
     optimal = ones(1,HRZN);
     for i=1:HRZN
         optimal(i) = x;
-        n = 1 - CHix(i,x);
-        x = x^n + n;
+        d = 1 - CHix(i,x);
+        x = x^d + d;
     end
     p2 = plot(optimal, 'o-k', 'Color', 'r','LineWidth', 2, ...
               'MarkerSize', 10, 'MarkerFaceColor', 'r',...
