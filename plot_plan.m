@@ -16,18 +16,23 @@ function plot_plan(plan)
     set(gca,'color',[0.95 0.95 0.95])
     
     % plot optimal path
-    plan = double(plan) - 1;
-    optimal = ones(1,HRZN);
-    for i=1:HRZN
-        optimal(i) = x;
-        d = 1 - plan(i);
-        x = x^d + d;
+    N = size(plan, 1);
+    for r=1:N;
+        x = 1;
+        p = double(plan(r,:)) - 1;
+        optimal = ones(1,HRZN);
+        for i=1:HRZN
+            optimal(i) = x;
+            d = 1 - p(i);
+            x = x^d + d;
+        end
+        clr = de2bi(2^(r-1),3);
+        p2(r) = plot(1:HRZN,optimal+sign(1+r-N)*0.05, '-k', 'Color', clr,'LineWidth', 2, ...
+                  'MarkerSize', 10, 'MarkerFaceColor', clr,...
+                  'MarkerEdgeColor', 'k');
     end
-    p2 = plot(optimal, 'o-k', 'Color', 'r','LineWidth', 2, ...
-              'MarkerSize', 10, 'MarkerFaceColor', 'r',...
-              'MarkerEdgeColor', 'k');
     hold off
- 
+    
     % set axis intervals and ticks
     axis([0,HRZN+1,0,LIFE+1])
     
@@ -35,7 +40,7 @@ function plot_plan(plan)
     title('Plans', 'FontSize', 16, 'FontWeight','bold')
     xlabel('Years (stages)', 'FontSize', 12, 'FontWeight','bold')
     ylabel('Motorcycle Age (states)', 'FontSize', 12, 'FontWeight','bold')
-    legend([p1(1) p2],{'possible','optimal'},'Location','northwest')
+    legend([p1(1) p2],horzcat({'possible'},repmat({'optimal'},1,N)),'Location','northwest')
 end
 
 %%
