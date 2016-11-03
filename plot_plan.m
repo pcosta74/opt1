@@ -1,8 +1,8 @@
 %%
 % Plot the graph, highlight chosen path
 % returns: nothing
-function plot_plan()
-    global HRZN LIFE CHix;
+function plot_plan(plan)
+    global HRZN LIFE;
     
     % get ordinate's matrix and transpose it
     i = 1; x = 1;
@@ -16,10 +16,11 @@ function plot_plan()
     set(gca,'color',[0.95 0.95 0.95])
     
     % plot optimal path
+    plan = double(plan) - 1;
     optimal = ones(1,HRZN);
     for i=1:HRZN
         optimal(i) = x;
-        d = 1 - CHix(i,x);
+        d = 1 - plan(i);
         x = x^d + d;
     end
     p2 = plot(optimal, 'o-k', 'Color', 'r','LineWidth', 2, ...

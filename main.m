@@ -29,14 +29,14 @@ SELL = [1750 1550 1450 1200 1000 700 600];
 RESV = COST - SELL;
 
 FNix = Inf(HRZN, LIFE);
-FNix(HRZN,:) = MNTC + COST - SELL; % Boundary condition
+FNix(HRZN,:) = MNTC + COST - SELL;  % Boundary condition
 
 CHix = NaN(HRZN, LIFE);
-CHix(HRZN,:) = DCSN(2); % Always "replace" at last year
+CHix(HRZN,:) = DCSN(2);             % Always "replace" at last year
 
 %%
 % Solve problem
-rec_fun(1,1)    % calculate plan
-get_plan()      % determine optimal path
-plot_plan();    % plot optimal path
+c = rec_fun(1,1)                    % calculate minimum cost
+p = get_plan()                      % determine optimal path
+plot_plan(p);                       % plot optimal path
 
