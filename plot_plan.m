@@ -10,7 +10,7 @@ function plot_plan(plan)
     
     % plot graph
     figure
-    p1 = plot(g,'o-k','MarkerSize',10, 'MarkerFaceColor', [0.5 0.5 0.5]);
+    p1 = plot(g,'-k','MarkerSize',10, 'MarkerFaceColor', [0.5 0.5 0.5]);
     hold on
     set(gcf,'color','w')
     set(gca,'color',[0.95 0.95 0.95])
@@ -26,9 +26,11 @@ function plot_plan(plan)
             d = 1 - p(i);
             x = x^d + d;
         end
-        clr = de2bi(2^(r-1),3);
-        p2(r) = plot(1:HRZN,optimal+sign(1+r-N)*0.05, '-k', 'Color', clr,'LineWidth', 2, ...
-                  'MarkerSize', 10, 'MarkerFaceColor', clr,...
+        colour = de2bi(2^(r-1),3);
+        offset = (-1)^mod(r,2)*ceil((r-1)/2)*0.025
+        p2(r) = plot(1:HRZN, optimal+offset, ...
+                  '-k', 'Color', colour,'LineWidth', 2, ...
+                  'MarkerSize', 10, 'MarkerFaceColor', colour,...
                   'MarkerEdgeColor', 'k');
     end
     hold off
