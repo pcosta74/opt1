@@ -27,22 +27,22 @@ function plot_plan(plan)
             x = x^d + d;
         end
         colour = de2bi(2^(r-1),3);
-        offset = (-1)^mod(r,2)*ceil((r-1)/2)*0.025
+        offset = (-1)^mod(r,2)*ceil((r-1)/2)*0.033
         p2(r) = plot(1:HRZN, optimal+offset, ...
                   '-k', 'Color', colour,'LineWidth', 2, ...
                   'MarkerSize', 10, 'MarkerFaceColor', colour,...
                   'MarkerEdgeColor', 'k');
     end
-    hold off
     
     % set axis intervals and ticks
     axis([0,HRZN+1,0,LIFE+1])
     
     % set title and axix labels
     title('Plans', 'FontSize', 16, 'FontWeight','bold')
-    xlabel('Years (stages)', 'FontSize', 12, 'FontWeight','bold')
-    ylabel('Motorcycle Age (states)', 'FontSize', 12, 'FontWeight','bold')
+    xlabel('Years (stages)', 'FontSize', 12)
+    ylabel('Motorcycle Age (states)', 'FontSize', 12)
     legend([p1(1) p2],horzcat({'possible'},repmat({'optimal'},1,N)),'Location','northwest')
+    hold off
 end
 
 %%
